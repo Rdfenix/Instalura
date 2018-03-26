@@ -37,7 +37,7 @@ export default class Likes extends Component{
         const {photo, like} = this.props
         return(
             <View>
-                <TouchableOpacity onPress={like} style={styles.likeButton}>
+                <TouchableOpacity onPress={() => {like(photo.id)}} style={styles.likeButton}>
                     <Image source={this.loadIcon(photo.liked)} style={styles.likeButton} />
                 </TouchableOpacity>
 

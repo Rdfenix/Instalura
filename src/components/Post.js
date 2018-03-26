@@ -18,29 +18,9 @@ export default class Post extends Component {
 
     constructor(props){
         super(props)
-        this.state = {
-            photo: this.props.photo
-        }
 
-        this.like = this.like.bind(this)
         this.showCommentary = this.showCommentary.bind(this)
         this.addCommentary = this.addCommentary.bind(this)
-    }
-
-    like(){
-        const { photo } =  this.state
-
-        let newList = []
-
-        if(!photo.liked){
-            newList = photo.likers.concat({login: 'meuUsuario'})
-        } else {
-            newList = photo.likers.filter(liker => {
-                return liker.login !== 'meuUsuario'
-            })
-        }
-        const actualPhoto = {...photo, liked: !photo.liked, likers: newList}
-        this.setState({photo: actualPhoto})
     }
 
     showCommentary(photo) {
@@ -72,7 +52,7 @@ export default class Post extends Component {
     }
 
     render(){
-        const {photo} = this.state
+        const {photo, likeCallback} = this.props
         return(
             <View>
                 <View style={styles.header}>
@@ -82,7 +62,7 @@ export default class Post extends Component {
                 <Image source={{uri: photo.urlFoto}} style={styles.postPhoto}/>
                 <View style={styles.footer}>
 
-                    <Likes photo={photo} like={this.like} />
+                    <Likes photo={photo} like={likeCallback} />
 
                     {this.showCommentary(photo)}
                     {photo.comentarios.map(comentario =>
