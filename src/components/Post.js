@@ -111,7 +111,7 @@ export default class Post extends Component {
                         </View>
                     )}
                     <View style={styles.newCommentary}>
-                        <TextInput style={styles.inputText} value={this.state.commentaryValue} onChangeText={texto => this.setState({commentaryValue: texto})} placeholder="Adicione um comentário" />
+                        <TextInput style={styles.inputText} underlineColorAndroid="transparent" value={this.state.commentaryValue} onChangeText={texto => this.setState({commentaryValue: texto})} placeholder="Adicione um comentário" />
                         <TouchableOpacity onPress={this.addCommentary}>
                             <Image style={styles.icon} source={require('../../resources/img/send.png')} />
                         </TouchableOpacity>

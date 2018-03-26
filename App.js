@@ -43,9 +43,9 @@ export default class App extends Component {
     );
   }
 }
-
+const margin = Platform.OS == 'ios' ? 20 : 0
 const styles = StyleSheet.create({
-  container: {marginTop: 20}
+  container: {marginTop: margin}
 })
 
 
