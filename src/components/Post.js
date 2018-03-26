@@ -85,7 +85,6 @@ export default class Post extends Component {
         }]
 
         const renewPhoto = {...this.state.photo, comentarios: newList}
-        this.inputComentario.clear();
         this.setState({photo: renewPhoto, commentaryValue: ''});
     }
 
@@ -112,7 +111,7 @@ export default class Post extends Component {
                         </View>
                     )}
                     <View style={styles.newCommentary}>
-                        <TextInput style={styles.inputText} ref={input => this.inputComentario = input} onChangeText={texto => this.setState({commentaryValue: texto})} placeholder="Adicione um comentário" />
+                        <TextInput style={styles.inputText} value={this.state.commentaryValue} onChangeText={texto => this.setState({commentaryValue: texto})} placeholder="Adicione um comentário" />
                         <TouchableOpacity onPress={this.addCommentary}>
                             <Image style={styles.icon} source={require('../../resources/img/send.png')} />
                         </TouchableOpacity>
