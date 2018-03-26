@@ -8,8 +8,10 @@ import {
     TextInput,
     Platform,
     Dimensions,
-    Button
+    Button,
+    AsyncStorage
   } from 'react-native';
+import axios from 'axios'
 
 const width = Dimensions.get('screen').width
 
@@ -17,7 +19,7 @@ export default class Login extends Component {
 
     constructor(){
         super()
-        this.state = {user: '', pass: ''}
+        this.state = {user: '', pass: '', mensagem: ''}
         this.login = this.login.bind(this)
     }
 
@@ -34,13 +36,28 @@ export default class Login extends Component {
             })
         };
 
-        fetch(uri, requestInfo)
+        axios({
+            method: 'post',
+            baseURL: 'https://instalura-api.herokuapp.com/api/',
+            url: 'public/login',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            data: {
+                login: this.state.user,
+                senha: this.state.pass
+            }
+        })
         .then(response => {
             if(response.ok)
                 return response.text()
             throw new Error("Não foi possivel fazer o login")
         })
-        .then(token => console.warn(token))
+        .then(token => {
+            AsyncStorage.setItem('token', token); 
+            AsyncStorage.setItem('usuario', this.state.user);
+        })
+        .catch(e => this.setState({mensagem: 'Não foi possivel fazer o login'}))
     }
 
     render(){
@@ -52,6 +69,11 @@ export default class Login extends Component {
                     <TextInput placeholder="Password" style={styles.input} onChangeText={text => this.setState({pass: text})} secureTextEntry={true} />
                     <Button title="Login" onPress={this.login} />
                 </View>
+
+                <Text style={styles.mensagem}>
+                    {this.state.mensagem}
+                </Text>
+
             </View>
         )
     }
@@ -62,5 +84,6 @@ const styles = StyleSheet.create({
     container: {flex: 1, alignItems: 'center', justifyContent: 'center'},
     title: {fontWeight: 'bold', fontSize: 26,},
     form: {width: width * 0.8},
-    input: {height: 40, borderBottomColor: '#ddd', borderBottomWidth: 1,}
+    input: {height: 40, borderBottomColor: '#ddd', borderBottomWidth: 1,},
+    mensagem: {marginTop: 15, color: '#e74c3c',}
 })
