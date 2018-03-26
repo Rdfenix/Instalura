@@ -26,6 +26,7 @@ export default class App extends Component {
       photos: []
     }
     this.like = this.like.bind(this)
+    this.addCommentary = this.addCommentary.bind(this)
   }
   //essa função é carregada apos o componente ser montado
   componentDidMount(){
@@ -55,12 +56,30 @@ export default class App extends Component {
     this.setState({photos})
   }
 
+  addCommentary(commentaryValue, idFoto){
+
+    if(commentaryValue === '')
+        return;
+
+    const photo = this.state.photos.find(photo => photo.id === idFoto)
+
+    const newList = [...photo.comentarios, {
+        id: commentaryValue ,
+        login: 'meuUsuario' ,
+        texto: commentaryValue
+    }]
+
+    const renewPhoto = {...photo, comentarios: newList}
+    const photos = this.state.photos.map(photo => photo.id === renewPhoto.id ? renewPhoto : photo)
+    this.setState({photos});
+  }
+
 
   render() {
     return (
 
       <FlatList style={styles.container} keyExtractor={item => String(item.id)} data={this.state.photos} renderItem={ ({item}) => 
-          <Post photo={item} likeCallback={this.like} />
+          <Post photo={item} likeCallback={this.like} AddcommentaryCallback={this.addCommentary} />
         }
       />
     );

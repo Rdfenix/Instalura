@@ -16,7 +16,7 @@ export default class InputCommentary extends Component {
         }
     }
     render(){
-        const {addCommentary} = this.props
+        const {AddcommentaryCallback} = this.props
         const {commentaryValue} = this.state
         return(
             <View style={styles.container}>
@@ -24,7 +24,7 @@ export default class InputCommentary extends Component {
                     value={this.state.commentaryValue} 
                     onChangeText={texto => this.setState({commentaryValue: texto})} 
                     placeholder="Adicione um comentário" />
-                <TouchableOpacity onPress={() => {addCommentary(commentaryValue); this.setState({commentaryValue: ''})}}>
+                <TouchableOpacity onPress={() => {AddcommentaryCallback(commentaryValue, this.props.idFoto); this.setState({commentaryValue: ''})}}>
                     <Image style={styles.icon} source={require('../../resources/img/send.png')} />
                 </TouchableOpacity>
             </View>

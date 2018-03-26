@@ -20,7 +20,6 @@ export default class Post extends Component {
         super(props)
 
         this.showCommentary = this.showCommentary.bind(this)
-        this.addCommentary = this.addCommentary.bind(this)
     }
 
     showCommentary(photo) {
@@ -36,23 +35,8 @@ export default class Post extends Component {
         )
     }
 
-    addCommentary(commentaryValue){
-
-        if(commentaryValue === '')
-            return;
-
-        const newList = [...this.state.photo.comentarios, {
-            id: commentaryValue ,
-            login: 'meuUsuario' ,
-            texto: commentaryValue
-        }]
-
-        const renewPhoto = {...this.state.photo, comentarios: newList}
-        this.setState({photo: renewPhoto});
-    }
-
     render(){
-        const {photo, likeCallback} = this.props
+        const {photo, likeCallback, AddcommentaryCallback} = this.props
         return(
             <View>
                 <View style={styles.header}>
@@ -72,7 +56,7 @@ export default class Post extends Component {
                         </View>
                     )}
 
-                    <InputCommentary addCommentary={this.addCommentary} />
+                    <InputCommentary AddcommentaryCallback={AddcommentaryCallback} idFoto={photo.id} />
 
                 </View>
             </View>
