@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     TextInput
   } from 'react-native';
-import InputCommentary from './inputCommentary'
+import InputCommentary from './InputCommentary'
+import Likes from './Likes'
 
 const width = Dimensions.get('screen').width;
 
@@ -21,15 +22,9 @@ export default class Post extends Component {
             photo: this.props.photo
         }
 
-        this.loadIcon = this.loadIcon.bind(this)
         this.like = this.like.bind(this)
-        this.showLikes = this.showLikes.bind(this)
         this.showCommentary = this.showCommentary.bind(this)
         this.addCommentary = this.addCommentary.bind(this)
-    }
-
-    loadIcon(liked){
-        return liked ? require('../../resources/img/s2-checked.png') : require('../../resources/img/s2.png')
     }
 
     like(){
@@ -46,18 +41,6 @@ export default class Post extends Component {
         }
         const actualPhoto = {...photo, liked: !photo.liked, likers: newList}
         this.setState({photo: actualPhoto})
-    }
-
-    showLikes(likers){
-
-        if(likers.length == 0)
-            return;
-
-        return(
-            <Text style={styles.likeCount}>
-                {likers.length} {likers.length > 1 ? 'curtidas' : 'curtida'}
-            </Text>
-        )
     }
 
     showCommentary(photo) {
@@ -98,11 +81,9 @@ export default class Post extends Component {
                 </View>
                 <Image source={{uri: photo.urlFoto}} style={styles.postPhoto}/>
                 <View style={styles.footer}>
-                    <TouchableOpacity onPress={this.like} style={styles.likeButton}>
-                        <Image source={this.loadIcon(photo.liked)} style={styles.likeButton} />
-                    </TouchableOpacity>
-                    
-                    {this.showLikes(photo.likers)}
+
+                    <Likes photo={photo} like={this.like} />
+
                     {this.showCommentary(photo)}
                     {photo.comentarios.map(comentario =>
                         <View style={styles.commentary} key={comentario.id}>
@@ -124,8 +105,6 @@ const styles = StyleSheet.create({
     perfilImage: {width: 40, height: 40, marginRight:10, borderRadius: 20},
     postPhoto: {width: width, height: width},
     footer: {margin: 10},
-    likeButton: {width: 40, height: 40, marginBottom: 10},
-    likeCount: {fontWeight: 'bold'},
     commentary: {flexDirection: 'row'},
     titleCommentary: {fontWeight: 'bold', marginRight: 5},
 })
