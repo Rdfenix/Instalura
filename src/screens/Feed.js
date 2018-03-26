@@ -16,9 +16,9 @@ import {
   FlatList
 } from 'react-native';
 
-import Post from './src/components/Post'
+import Post from '../components/Post'
 
-export default class App extends Component {
+export default class Feed extends Component {
   //constroi o componente
   constructor(){
     super()
@@ -38,7 +38,6 @@ export default class App extends Component {
 
   like(photoId){
     const photo = this.state.photos.find(photo => photo.id === photoId)
-
     let newList = []
 
     if(!photo.liked){
@@ -50,9 +49,7 @@ export default class App extends Component {
     }
 
     const actualPhoto = {...photo, liked: !photo.liked, likers: newList}
-
     const photos = this.state.photos.map(photo => photo.id === actualPhoto.id ? actualPhoto : photo)
-
     this.setState({photos})
   }
 
@@ -73,7 +70,6 @@ export default class App extends Component {
     const photos = this.state.photos.map(photo => photo.id === renewPhoto.id ? renewPhoto : photo)
     this.setState({photos});
   }
-
 
   render() {
     return (
